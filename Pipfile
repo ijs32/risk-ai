@@ -10,6 +10,9 @@ sqlalchemy = "*"
 python-dotenv = "*"
 mysql-connector-python = "*"
 pandas = "*"
+langchain = "*"
+langchain-core = "*"
+langchain-community = "*"
 
 [dev-packages]
 

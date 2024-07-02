@@ -1,8 +1,8 @@
 # libraries
 import random
 import pandas as pd
-import pprint
 from sqlalchemy.sql import text
+import pprint
 
 # my files
 from classes.turn import Turn
@@ -19,6 +19,7 @@ class Game:
     def __init__(self, player_count=PLAYER_COUNT, territory_count=TERRITORY_COUNT) -> None:
         self.engine = get_engine()
         
+        self._status = True
         self.player_count = player_count
         self.players: list[Player] = []
         self.create_players()
@@ -29,6 +30,10 @@ class Game:
 
         self.initiate_territory_registry()
 
+    @property
+    def status(self) -> bool:
+        return self._status
+    
     def create_players(self):
         for i in range(1, (self.player_count + 1)):
             self.players.append(Player(i))
@@ -49,7 +54,8 @@ class Game:
             }
             with self.engine.connect() as conn:
                 edges = conn.execute(get_edges_sql, params).fetchall()
-            
+                edges: list[int] = [edge[0] for edge in edges]
+                
             attrs = {
                 "territory_id": row['territory_id'],
                 "name": row["name"],
@@ -74,9 +80,16 @@ class Game:
             else: player_id += 1
 
         self.territory_registry = TerritoryRegistry(registry)
+        print(self.territory_registry.registry_to_json())
 
     def take_turn(self):
         turn = Turn(self.players, self.territory_registry)
+
+        self.update_status
+
+    def update_status():
+
+        raise NotImplementedError
 
         
 

@@ -1,19 +1,12 @@
+import json
+
 class Territory:
     def __init__(self, attrs: list) -> None:
 
-        self._player = None
         self._territory_id = attrs["territory_id"]
         self._name = attrs["name"]
         self._continent_id = attrs["continent_id"]
         self._edges = attrs["edges"]
-
-    @property
-    def player(self) -> int:
-        return self._player
-
-    @player.setter
-    def player(self, value: int):
-        self._player = value
 
     @property
     def territory_id(self) -> int:
@@ -30,3 +23,12 @@ class Territory:
     @property
     def edges(self) -> list:
         return self._edges
+    
+    def territory_to_json(self) -> dict:
+
+        return {
+            "territory_id": self.territory_id,
+            "name": self.name,
+            "continent_id": self.continent_id,
+            "edges": self.edges
+        }
